@@ -34,3 +34,5 @@ export const BenefitCard: React.FC<BenefitCardProps> = ({ benefit }) => {
     </div>
   );
 };
+
+export default BenefitCard;
