@@ -3,106 +3,21 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Globe, Building2, TrendingUp, Box, ShieldCheck, 
-  DollarSign, BarChart2, ClipboardCheck, PackageOpen, Boxes
+  DollarSign, BarChart2, ClipboardCheck, PackageOpen, Boxes 
 } from 'lucide-react';
+import { ServiceCard } from './ServiceCard';
+import { BenefitCard } from './BenefitCard';
+import type { Service, Benefit } from './types';
 
-const AnimatedCounter = ({ value, duration = 2000, suffix = '%' }) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    let startTime: number | null = null;
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      setCount(Math.floor(progress * value));
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-    requestAnimationFrame(animate);
-  }, [value, duration]);
-
-  return <span>{count}{suffix}</span>;
-};
-
-const ServiceCard = ({ service, isActive, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className={`w-full p-6 rounded-lg transition-all duration-300 transform ${
-        isActive 
-          ? 'bg-[#00204E] text-white scale-105' 
-          : 'bg-white text-[#00204E] hover:scale-102'
-      } border border-gray-200 shadow-md`}
-    >
-      <div className="flex items-center gap-4 mb-4">
-        <div className={`p-3 rounded-lg transition-all duration-300 ${
-          isActive ? 'bg-sky-400' : 'bg-[#00204E]'
-        }`}>
-          <service.icon className={`h-6 w-6 ${
-            isActive ? 'text-[#00204E]' : 'text-white'
-          }`} />
-        </div>
-        <h3 className="text-lg font-semibold">{service.title}</h3>
-      </div>
-      {isActive && (
-        <div className="space-y-4 mt-4 text-left">
-          <p className="text-gray-200">{service.description}</p>
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            {service.metrics.map((metric, idx) => (
-              <div key={idx} className="bg-[#003366] p-4 rounded-lg">
-                <div className="text-2xl font-bold text-sky-400">
-                  <AnimatedCounter value={metric.value} suffix={metric.suffix} />
-                </div>
-                <div className="text-sm text-gray-300">{metric.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </button>
-  );
-};
-
-const BenefitCard = ({ benefit }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div
-      className="p-6 bg-white rounded-lg shadow-md border border-gray-200 transition-all duration-300 hover:shadow-xl"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="flex items-center gap-3 mb-4">
-        <div className={`p-3 bg-[#00204E] rounded-lg transform transition-all duration-300 ${
-          isHovered ? 'rotate-12' : ''
-        }`}>
-          <benefit.icon className="h-6 w-6 text-white" />
-        </div>
-        <h3 className="text-lg font-semibold text-[#00204E]">{benefit.title}</h3>
-      </div>
-      <p className="text-gray-600">{benefit.description}</p>
-      {benefit.impact && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <div className="text-2xl font-bold text-[#00204E]">
-            <AnimatedCounter value={benefit.impact.value} suffix={benefit.impact.suffix} />
-          </div>
-          <div className="text-sm text-gray-600">{benefit.impact.label}</div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const FTZExplorer = () => {
-  const [activeService, setActiveService] = useState(null);
-  const [animateHeader, setAnimateHeader] = useState(false);
+const FTZExplorer: React.FC = () => {
+  const [activeService, setActiveService] = useState<number | null>(null);
+  const [animateHeader, setAnimateHeader] = useState<boolean>(false);
 
   useEffect(() => {
     setAnimateHeader(true);
   }, []);
 
-  const services = [
+  const services: Service[] = [
     {
       id: 1,
       title: 'FTZ Warehousing',
@@ -145,7 +60,7 @@ const FTZExplorer = () => {
     }
   ];
 
-  const benefits = [
+  const benefits: Benefit[] = [
     {
       title: 'Cost Reduction',
       icon: TrendingUp,
@@ -187,7 +102,7 @@ const FTZExplorer = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <ServiceCard
               key={service.id}
               service={service}
@@ -202,6 +117,19 @@ const FTZExplorer = () => {
           {benefits.map((benefit, index) => (
             <BenefitCard key={index} benefit={benefit} />
           ))}
+        </div>
+      </div>
+
+      {/* Optional Contact CTA */}
+      <div className="max-w-6xl mx-auto mt-16 text-center">
+        <div className="bg-[#00204E] rounded-lg p-8 text-white">
+          <h2 className="text-2xl font-bold mb-4">Ready to Optimize Your Global Trade?</h2>
+          <p className="mb-6 text-gray-300">
+            Contact us today to learn how our FTZ solutions can benefit your business.
+          </p>
+          <button className="bg-sky-400 text-[#00204E] px-8 py-3 rounded-lg font-semibold hover:bg-sky-300 transition-colors">
+            Get Started
+          </button>
         </div>
       </div>
     </div>
