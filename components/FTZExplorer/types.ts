@@ -40,10 +40,13 @@ export interface ServiceCardProps {
 export interface BenefitCardProps {
   benefit: Benefit;
 }
-  isActive: boolean;
-  onClick: () => void;
+
+export interface CardProps {
+  children: React.ReactNode;
+  className?: string;
 }
 
-export interface BenefitCardProps {
-  benefit: Benefit;
+export interface IconProps {
+  icon: LucideIcon;
+  className?: string;
 }
