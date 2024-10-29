@@ -1,5 +1,11 @@
 import { LucideIcon } from 'lucide-react';
 
+export interface AnimatedCounterProps {
+  value: number;
+  duration?: number;
+  suffix?: string;
+}
+
 export interface Metric {
   value: number;
   label: string;
@@ -27,6 +33,13 @@ export interface Benefit {
 
 export interface ServiceCardProps {
   service: Service;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+export interface BenefitCardProps {
+  benefit: Benefit;
+}
   isActive: boolean;
   onClick: () => void;
 }
